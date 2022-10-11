@@ -8,10 +8,15 @@ const days = document.getElementById("days");
 // current date
 
 const todayDate = new Date();
-console.log(todayDate);
 const currentYear = todayDate.getFullYear();
-const currentMonth = todayDate.getMonth();
+const currentMonth = todayDate.getMonth() + 1;
 const currentDay = todayDate.getDate();
+const date_current = String(currentYear).concat(
+  "-",
+  String(currentMonth),
+  "-",
+  String(currentDay)
+);
 
 btn.addEventListener("click", displayAge);
 
@@ -23,7 +28,7 @@ function displayAge() {
       err.classList.remove("active");
     }, [1500]);
   } else {
-    calcAge(container.value, "2022-10-25");
+    calcAge(container.value, date_current);
   }
 }
 
@@ -37,11 +42,12 @@ function calcAge(start, end) {
   let c_day = parseInt(end.substring(8, 10), 10);
 
   //   calculate Year differece
+
   let yearAgeDiff = c_year - dobYear;
 
   //   calculate month difference
   let monthAgeDiff;
-  if (c_month > dobMonth) {
+  if (c_month >= dobMonth) {
     monthAgeDiff = c_month - dobMonth;
   } else {
     yearAgeDiff--;
@@ -50,7 +56,7 @@ function calcAge(start, end) {
 
   //   calculate day difference
   let dayAgeDiff;
-  if (c_day > dobDay) {
+  if (c_day >= dobDay) {
     dayAgeDiff = c_day - dobDay;
   } else {
     monthAgeDiff--;
@@ -63,7 +69,7 @@ function calcAge(start, end) {
     yearAgeDiff--;
   }
 
-  if (yearAgeDiff < 0) {
+  if (start > end) {
     err.classList.add("active");
     err.textContent = "Welcome Time Traveller";
     setTimeout(() => {
